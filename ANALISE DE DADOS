@@ -1,0 +1,19 @@
+import plotly.express as px #importa a biblioteca para montar gráfico
+import pandas as pd
+base=pd.read_excel('base.xlsx') #carrega a Base selecionada
+base=base.dropna(how='all',axis=1)#Limpa as colunas vazias da Base
+print (base.info())#monstra as informações e atributos da BAse
+base["Data de Competência"]=pd.to_datetime(base["Data de Competência"])#Alera o campo que antes era texto para Data
+base["Número OS"]=pd.to_numeric(base["Número OS"])#Alera o campo que antes era texto para Data
+base["Data Fim Execução"]=pd.to_datetime(base["Data Fim Execução"])#Alera o campo que antes era texto para Data
+base["[Prazo de Execução - Início]"]=pd.to_datetime(base["[Prazo de Execução - Início]"])#Alera o campo que antes era texto para Data
+base["[Prazo de Execução - Fim]"]=pd.to_datetime(base["[Prazo de Execução - Fim]"])#Alera o campo que antes era texto para Data
+display(base["TSS"].value_counts())#Conta os valores selecionados
+display(base["Município"].value_counts())#TAmbem conta os valores por Município
+display(base["Município"].value_counts(normalize = True).map('{:.1%}'.format))#Transforma os valores contados em porcentagem
+display(base["TSS"].value_counts(normalize = True).map('{:.1%}'.format))#Transforma os valores contados em porcentagem
+for coluna in base:
+    if coluna !="TSS":
+        fig=px.histogram(base, x=coluna, color="Município") #mONTA O GRÁFICO
+fig.show()#mOSTRA O GRÁFICO
+
