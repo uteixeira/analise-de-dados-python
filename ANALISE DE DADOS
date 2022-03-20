@@ -1,19 +1,49 @@
-import plotly.express as px #importa a biblioteca para montar gráfico
+importando bibliotecas
+
 import pandas as pd
-base=pd.read_excel('base.xlsx') #carrega a Base selecionada
-base=base.dropna(how='all',axis=1)#Limpa as colunas vazias da Base
-print (base.info())#monstra as informações e atributos da BAse
+import numpy as np
+import plotly.express as px #importa a biblioteca para montar gráfico
+CARREGANDO A BASE DE DADOS "PARA ISSO UTILIZA SE O COMANDO pd.read
+
+base=pd.read_excel('base.xlsx')
+Limpando Colunas Vazias
+
+base=base.dropna(how='all',axis=1)
+Alterando formato de dados
+
 base["Data de Competência"]=pd.to_datetime(base["Data de Competência"])#Alera o campo que antes era texto para Data
 base["Número OS"]=pd.to_numeric(base["Número OS"])#Alera o campo que antes era texto para Data
 base["Data Fim Execução"]=pd.to_datetime(base["Data Fim Execução"])#Alera o campo que antes era texto para Data
 base["[Prazo de Execução - Início]"]=pd.to_datetime(base["[Prazo de Execução - Início]"])#Alera o campo que antes era texto para Data
 base["[Prazo de Execução - Fim]"]=pd.to_datetime(base["[Prazo de Execução - Fim]"])#Alera o campo que antes era texto para Data
-display(base["TSS"].value_counts())#Conta os valores selecionados
+Monstrabdo atributos da base de dados
+
+print(base.info())
+Filtrando base
+
+base_mask=base['Família']!='REPOSIÇÃO'
+filtered_df = base[base_mask]
+display(filtered_df)
+APAGANDO COLUNAS ESPECIFICAS
+
+Apagamdo coluna especifica da tabela
+
+base.drop(columns=['Unidade Executante'])
+base["Data de Competência"]=pd.to_datetime(base["Data de Competência"])
+CONTANDO DADOS
+
+display(base["Status da OS"].value_counts())#Conta os valores selecionados
 display(base["Município"].value_counts())#TAmbem conta os valores por Município
 display(base["Município"].value_counts(normalize = True).map('{:.1%}'.format))#Transforma os valores contados em porcentagem
-display(base["TSS"].value_counts(normalize = True).map('{:.1%}'.format))#Transforma os valores contados em porcentagem
-for coluna in base:
-    if coluna !="TSS":
-        fig=px.histogram(base, x=coluna, color="Município") #mONTA O GRÁFICO
-fig.show()#mOSTRA O GRÁFICO
-
+display(base["Status da OS"].value_counts(normalize = True).map('{:.1%}'.format))
+for coluna in base.columns:
+    grafico=px.histogram(base,x=coluna,color="Status da OS")
+    grafico.show()
+dados=pd.read_excel("dados.xlsx")
+dados=executados.dropna(how='all',axis=1)
+print(dados.info())
+import plotly.express as px
+for coluna in dados.columns:
+    grafico=px.histogram(dados,x=coluna,color="Status da OS")
+    grafico.show()
+display(dados["Família"].value_counts())
